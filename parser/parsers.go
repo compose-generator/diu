@@ -3,6 +3,7 @@ package parser
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/compose-generator/docker-inspect-utils/cli"
@@ -22,5 +23,22 @@ func ParseDockerManifest(imageName string) (manifest model.DockerManifest, err e
 		return
 	}
 	err = errors.New("Could not parse manifest")
+	return
+}
+
+// ParseDockerVolumes retrieves all existing volumes of the local docker instance and bundles them to objects
+func ParseDockerVolumes() (volumes []model.DockerVolume, err error) {
+	// Get volume names
+	volumeNameString := cli.ExecuteAndWaitWithOutput("docker", "volume", "ls", "-q")
+	volumeNames := strings.Split(volumeNameString, "\n")
+	fmt.Println(volumeNames)
+	if len(volumeNames) == 0 {
+		return
+	}
+	// Parse JSON
+	queryCmd := []string{"docker", "volume", "inspect"}
+	queryCmd = append(queryCmd, volumeNames...)
+	volumesJSON := cli.ExecuteAndWaitWithOutput(queryCmd...)
+	json.Unmarshal([]byte(volumesJSON), &volumes)
 	return
 }

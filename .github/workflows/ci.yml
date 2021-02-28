@@ -4,8 +4,7 @@ name: Go CI
 
 on:
   push:
-    paths:
-      - 'src/**'
+    branches: [ main, dev, feature/** ]
   pull_request:
     branches: [ main, dev ]
 
@@ -14,9 +13,8 @@ jobs:
     strategy:
       matrix:
         go-version: [1.14.x, 1.15.x, 1.16.x]
-        os: [ubuntu-latest, windows-latest]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - name: Install Go
       uses: actions/setup-go@v2
