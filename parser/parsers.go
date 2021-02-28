@@ -1,16 +1,17 @@
 package parser
 
 import (
-	"docker-inspect-utils/model"
-	"docker-inspect-utils/utils"
 	"encoding/json"
 	"errors"
 	"strings"
+
+	"github.com/compose-generator/docker-inspect-utils/cli"
+	"github.com/compose-generator/docker-inspect-utils/model"
 )
 
 // ParseDockerManifest retrieves the manifest of a remote Docker image and bundles it to an object
 func ParseDockerManifest(imageName string) (manifest model.DockerManifest, err error) {
-	manifestJSON := utils.ExecuteAndWaitWithOutput("docker", "manifest", "inspect", "-v", imageName)
+	manifestJSON := cli.ExecuteAndWaitWithOutput("docker", "manifest", "inspect", "-v", imageName)
 	if strings.HasPrefix(manifestJSON, "[") {
 		var manifestArray []model.DockerManifest
 		json.Unmarshal([]byte(manifestJSON), &manifestArray)
