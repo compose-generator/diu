@@ -1,8 +1,8 @@
 package diu
 
 import (
-	"github.com/compose-generator/docker-inspect-utils/model"
-	"github.com/compose-generator/docker-inspect-utils/parser"
+	"github.com/compose-generator/diu/model"
+	"github.com/compose-generator/diu/parser"
 )
 
 // GetImageManifest returns the manifest of a remote Docker image

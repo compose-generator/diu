@@ -3,7 +3,7 @@ package diu
 import (
 	"testing"
 
-	"github.com/compose-generator/docker-inspect-utils/cli"
+	"github.com/compose-generator/diu/cli"
 	"github.com/stretchr/testify/assert"
 )
 

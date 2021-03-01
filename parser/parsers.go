@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/compose-generator/docker-inspect-utils/cli"
-	"github.com/compose-generator/docker-inspect-utils/model"
+	"github.com/compose-generator/diu/cli"
+	"github.com/compose-generator/diu/model"
 )
 
 // ParseDockerManifest retrieves the manifest of a remote Docker image and bundles it to an object
