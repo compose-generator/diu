@@ -40,6 +40,18 @@ if err == nil && len(volumes) > 0 {
 }
 ```
 
+### Get all networks of local Docker instance
+Returns a slice of structs with following structure: [Structure](model/network.go)
+
+**Example:**
+```go
+networks, err := GetExistingNetworks()
+if err == nil && len(networks) > 0 {
+    // Print layer count of hello-world image
+    fmt.println("Name of first networks: "+networks[0].Name)
+}
+```
+
 *TODO: To be extended*
 
 ## Contribute to the project

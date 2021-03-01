@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/compose-generator/diu/cli"
+	"github.com/compose-generator/diu/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -47,4 +48,27 @@ func TestGetExistingVolumes_One(t *testing.T) {
 	assert.Equal(t, "local", v.Scope)
 	// Cleanup
 	cli.ExecuteAndWaitWithOutput("docker", "volume", "rm", "test")
+}
+
+func TestGetExistingNetworks(t *testing.T) {
+	// Create volume
+	cli.ExecuteAndWaitWithOutput("docker", "network", "create", "test")
+	// Test with one volume
+	networks, err := GetExistingNetworks()
+	assert.Nil(t, err)
+	// Test Network count
+	assert.LessOrEqual(t, 1, len(networks))
+	var n model.DockerNetwork
+	for _, network := range networks {
+		if network.Name == "test" {
+			n = network
+			break
+		}
+	}
+	assert.Equal(t, "test", n.Name)
+	assert.Equal(t, "bridge", n.Driver)
+	assert.Empty(t, n.Labels)
+	assert.Empty(t, n.Options)
+	// Cleanup
+	cli.ExecuteAndWaitWithOutput("docker", "network", "rm", "test")
 }

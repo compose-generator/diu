@@ -3,7 +3,6 @@ package parser
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/compose-generator/diu/cli"
@@ -31,7 +30,6 @@ func ParseDockerVolumes() (volumes []model.DockerVolume, err error) {
 	// Get volume names
 	volumeNameString := cli.ExecuteAndWaitWithOutput("docker", "volume", "ls", "-q")
 	volumeNames := strings.Split(volumeNameString, "\n")
-	fmt.Println(volumeNames)
 	if len(volumeNames) == 0 {
 		return
 	}
@@ -40,5 +38,21 @@ func ParseDockerVolumes() (volumes []model.DockerVolume, err error) {
 	queryCmd = append(queryCmd, volumeNames...)
 	volumesJSON := cli.ExecuteAndWaitWithOutput(queryCmd...)
 	json.Unmarshal([]byte(volumesJSON), &volumes)
+	return
+}
+
+// ParseDockerNetworks retrieves all existing networks of the local docker instance and bundles them to objects
+func ParseDockerNetworks() (networks []model.DockerNetwork, err error) {
+	// Get network names
+	networkNameString := cli.ExecuteAndWaitWithOutput("docker", "network", "ls", "-q")
+	networkNames := strings.Split(networkNameString, "\n")
+	if len(networkNames) == 0 {
+		return
+	}
+	// Parse JSON
+	queryCmd := []string{"docker", "network", "inspect", "-v"}
+	queryCmd = append(queryCmd, networkNames...)
+	volumesJSON := cli.ExecuteAndWaitWithOutput(queryCmd...)
+	json.Unmarshal([]byte(volumesJSON), &networks)
 	return
 }
