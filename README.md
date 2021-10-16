@@ -55,8 +55,6 @@ if err == nil && len(networks) > 0 {
 }
 ```
 
-*TODO: To be extended*
-
 ## Contribute to the project
 If you want to contribute to this project, please ensure you comply with the [contribution guidelines](CONTRIBUTING.md).
 
